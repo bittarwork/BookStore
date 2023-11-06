@@ -1,6 +1,6 @@
 import React from "react";
 
-const CostumeButton = ({ text, href , onclick }) => {
+const CostumeButton = ({ text, href }) => {
   return (
     <a
       href={href}
