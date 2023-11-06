@@ -41,9 +41,36 @@ bookRouter.get("/book", async (request, response) => {
 // get book by id :
 bookRouter.get("/book/:id", async (request, response) => {
   try {
-    const {id} = request.params
+    const { id } = request.params;
     const book = await Book.findById(id);
     return response.status(200).send(book);
+  } catch (error) {
+    console.error(error);
+    response.status(500).send({ msg: `Error: ${error.message}` });
+  }
+});
+// updating book information :
+bookRouter.put("/book/:id", async (request, response) => {
+  try {
+    const { title, author, publishYear, price } = request.body;
+    const { id } = request.params;
+
+    if (!title || !author || !publishYear || !price) {
+      return response.status(400).send({
+        msg: "Please provide all required fields (title, author, publishYear, price)",
+      });
+    } else {
+      const updatedBook = await Book.findByIdAndUpdate(
+        id,
+        { title, author, publishYear, price }
+      );
+      if (!updatedBook) {
+        return response.status(404).send({
+          msg: "Book not found.",
+        });
+      }
+      return response.status(200).send(updatedBook);
+    }
   } catch (error) {
     console.error(error);
     response.status(500).send({ msg: `Error: ${error.message}` });
