@@ -3,9 +3,11 @@ import mongoose from "mongoose";
 import { PORT, conecctionString } from "./config.js";
 import { bookRouter } from "./routes/book.js";
 
+
 const app = express();
 /!* ------------------------------- meddilware ------------------------------- */;
 app.use(express.json());
+
 app.use((request, response, next) => {
   console.log(request.url);
   next();

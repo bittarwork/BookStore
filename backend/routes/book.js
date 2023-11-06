@@ -2,6 +2,7 @@ import { Router, request, response } from "express";
 import { Book } from "../models/books.js";
 
 const bookRouter = Router();
+
 // add new book
 bookRouter.post("/book", async (request, response, next) => {
   try {
@@ -28,6 +29,7 @@ bookRouter.post("/book", async (request, response, next) => {
     response.status(500).send({ msg: `Error: ${error.message}` });
   }
 });
+
 // get all book
 bookRouter.get("/book", async (request, response) => {
   try {
@@ -38,17 +40,24 @@ bookRouter.get("/book", async (request, response) => {
     response.status(500).send({ msg: `Error: ${error.message}` });
   }
 });
+
 // get book by id :
 bookRouter.get("/book/:id", async (request, response) => {
   try {
     const { id } = request.params;
     const book = await Book.findById(id);
+    if (!book) { 
+        return response.status(404).send({
+          msg: "Book not found.",
+        });
+    }
     return response.status(200).send(book);
   } catch (error) {
     console.error(error);
     response.status(500).send({ msg: `Error: ${error.message}` });
   }
 });
+
 // updating book information :
 bookRouter.put("/book/:id", async (request, response) => {
   try {
@@ -60,10 +69,12 @@ bookRouter.put("/book/:id", async (request, response) => {
         msg: "Please provide all required fields (title, author, publishYear, price)",
       });
     } else {
-      const updatedBook = await Book.findByIdAndUpdate(
-        id,
-        { title, author, publishYear, price }
-      );
+      const updatedBook = await Book.findByIdAndUpdate(id, {
+        title,
+        author,
+        publishYear,
+        price,
+      });
       if (!updatedBook) {
         return response.status(404).send({
           msg: "Book not found.",
@@ -71,6 +82,23 @@ bookRouter.put("/book/:id", async (request, response) => {
       }
       return response.status(200).send(updatedBook);
     }
+  } catch (error) {
+    console.error(error);
+    response.status(500).send({ msg: `Error: ${error.message}` });
+  }
+});
+
+// deleting a book by id :
+bookRouter.delete("/book/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await Book.findByIdAndDelete(id);
+    if (!result) {
+      return response.status(404).send({
+        msg: "Book not found.",
+      });
+    }
+    return response.status(200).send({ msg: `the book with this id: ${id} has been deleted` });
   } catch (error) {
     console.error(error);
     response.status(500).send({ msg: `Error: ${error.message}` });
