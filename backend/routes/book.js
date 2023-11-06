@@ -3,13 +3,13 @@ import { Book } from "../models/books.js";
 
 const bookRouter = Router();
 // add new book
-bookRouter.post("/addBook", async (request, response, next) => {
+bookRouter.post("/book", async (request, response, next) => {
   try {
-    const { title, author, publishYear } = request.body;
+    const { title, author, publishYear, price } = request.body;
 
-    if (!title || !author || !publishYear) {
+    if (!title || !author || !publishYear || !price) {
       return response.status(400).send({
-        msg: "Please provide all required fields (title, author, publishYear)",
+        msg: "Please provide all required fields (title, author, publishYear ,price)",
       });
     }
 
@@ -17,6 +17,7 @@ bookRouter.post("/addBook", async (request, response, next) => {
       title,
       author,
       publishYear,
+      price,
     };
 
     const createdBook = await Book.create(newBook);
@@ -27,8 +28,25 @@ bookRouter.post("/addBook", async (request, response, next) => {
     response.status(500).send({ msg: `Error: ${error.message}` });
   }
 });
-// retrive all book from db : 
-bookRouter.get ("/book" , (request, response) => { 
-    
-})
+// get all book
+bookRouter.get("/book", async (request, response) => {
+  try {
+    const books = await Book.find({});
+    return response.status(200).send(books);
+  } catch (error) {
+    console.error(error);
+    response.status(500).send({ msg: `Error: ${error.message}` });
+  }
+});
+// get book by id :
+bookRouter.get("/book/:id", async (request, response) => {
+  try {
+    const {id} = request.params
+    const book = await Book.findById(id);
+    return response.status(200).send(book);
+  } catch (error) {
+    console.error(error);
+    response.status(500).send({ msg: `Error: ${error.message}` });
+  }
+});
 export { bookRouter };
