@@ -34,12 +34,14 @@ const BookList = ({ data, setBooks, refreshbooks }) => {
             <td className="border px-4 py-2">{book.publishYear}</td>
             <td className="border px-4 py-2">{book.price}</td>
             <td className="border px-4 py-2">
-              <button
-                type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-1 mb-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-              >
-                Ditales
-              </button>
+              <Link to={`/bookedit/${book._id}`}>
+                <button
+                  type="button"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-1 mb-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                >
+                  Edite
+                </button>
+              </Link>
               <Link to={`/book/${book._id}`}>
                 <button
                   type="button"
