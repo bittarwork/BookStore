@@ -1,26 +1,30 @@
 import React from "react";
-import BookCard from "./BookCard";
+
+
 const BookList = ({ data }) => {
   return (
-    <div>
-      {data.map((book) => {
-        const { title, author, publishYear, price } = book;
-       return (
-         <div>
-           {data.map((book) => (
-             <BookCard
-               key={book.id} // Use a unique identifier from the book object as the key
-               title={book.title}
-               author={book.author}
-               publishYear={book.publishYear}
-               price={book.price}
-               image={book.image}
-             />
-           ))}
-         </div>
-       );
-      })}
-    </div>
+    <table className="table-auto w-full">
+      <thead>
+        <tr>
+          <th className="px-4 py-2">Title</th>
+          <th className="px-4 py-2">Author</th>
+          <th className="px-4 py-2">Publish Year</th>
+          <th className="px-4 py-2">Price</th>
+          <th className="px-4 py-2">edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((book) => (
+          <tr key={book.id}>
+            <td className="border px-4 py-2">{book.title}</td>
+            <td className="border px-4 py-2">{book.author}</td>
+            <td className="border px-4 py-2">{book.publishYear}</td>
+            <td className="border px-4 py-2">{book.price}</td>
+            <td className="border px-4 py-2"></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import BookList from "../components/BookList";
-import Hero from "../components/Hero";
 import axios from "axios";
+import NavigationBar from "../components/NavigationBar";
+import Footer from "../components/Footer"
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,10 +22,11 @@ const Home = () => {
   }, []);
   return (
     <div>
-      <Hero />
-      <div className="container mx-auto py-8">
+      <NavigationBar/>
+      <div className="container mx-auto py-8 px-8">
         <BookList data={books} />
       </div>
+      <Footer/>
     </div>
   );
 };
